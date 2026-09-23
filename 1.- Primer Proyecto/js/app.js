@@ -12,10 +12,13 @@ botonSaludar.addEventListener("click", () => {
 
   if (nombreActual === "") {
     mensaje.textContent = "Debes introducir un nombre";
+    mensaje.classList.add("error");
+    mensaje.classList.remove("destacado");
     return;
   }
   mensaje.textContent = `Hola ${nombreActual}`;
   mensaje.classList.add("destacado");
+  mensaje.classList.remove("error");
 });
 
 /*nombre.addEventListener("keydown", (evento) => {
@@ -27,6 +30,7 @@ botonSaludar.addEventListener("click", () => {
 botonReiniciar.addEventListener("click", () => {
   nombre.value = "";
   mensaje.textContent = "Aquí aparecerá el mensaje";
+  mensaje.classList.remove("error");
   mensaje.classList.remove("destacado");
   nombre.focus();
 });
