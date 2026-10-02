@@ -70,3 +70,19 @@ function escape(value) {
 function buscarServicios(id) {
   return SERVICIOS.find((servicio) => servicio.id === id);
 }
+
+function renderizarServicios() {
+  let cardsHtml = "";
+  let optionHtml = "";
+
+  for (const servicio of SERVICIOS) {
+    cardsHtml += `
+      <article class="article">
+        <h3>${servicio.name}</h3>
+        <p${servicio.duracion} min</p>
+        <span class="price">${formatMoney(servicio.precio)}</span>
+      </article>
+    
+    `;
+  }
+}
