@@ -49,7 +49,7 @@ const bookingForm = document.querySelector("#bookingForm");
 const ticketContent = document.querySelector("#ticketContent");
 const formMessage = document.querySelector("#formMessage");
 
-function formatearPrecio(importe) {
+function formatMoney(importe) {
   // Intl sirve para hacer cosas con enteros, libreria interesante
   return new Intl.NumberFormat(TIENDA.idioma, {
     style: "currency",
@@ -57,4 +57,16 @@ function formatearPrecio(importe) {
   }).format(importe);
 }
 
-console.log(formatearPrecio(15));
+function escape(value) {
+  // para evitarnos errores posibles al usar en un string caracteres especiales
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039");
+}
+
+function buscarServicios(id) {
+  return SERVICIOS.find((servicio) => servicio.id === id);
+}
