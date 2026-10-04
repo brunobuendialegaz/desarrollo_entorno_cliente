@@ -104,3 +104,13 @@
 // console.log(multiplicacion(numero1, numero2));
 // console.log(division(numero1, numero2));
 // console.log(resto(numero1, numero2));
+
+// ej 7
+
+// const numero1 = 8;
+// const numero2 = 17;
+// const numero3 = 24;
+
+// console.log(numero1, "es par?", numero1 % 2 === 0);
+// console.log(numero2, "es par?", numero2 % 2 === 0);
+// console.log(numero3, "es par?", numero3 % 2 === 0);
