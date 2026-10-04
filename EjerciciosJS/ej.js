@@ -69,3 +69,38 @@
 
 // resultado = null;
 // console.log(typeof resultado);
+
+// ej 5
+
+// const nombre = "Ana";
+// const edad = 24;
+// let ciudad = "Lorca";
+// if (true) {
+//   console.log(nombre);
+//   console.log(edad);
+//   console.log(ciudad);
+// }
+// console.log(nombre);
+// console.log(edad);
+// console.log(ciudad);
+
+// 1. ¿Qué console.log() funcionarán? Todos los de dentro del if y solo nombre fuera
+// 2. ¿Cuáles producirán un error? edad y ciudad fuera del if
+// 3. ¿Por qué? por el scope
+
+// ej 6
+
+// const numero1 = 20;
+// const numero2 = 6;
+
+// const suma = (a, b) => a + b;
+// const resta = (a, b) => a - b;
+// const multiplicacion = (a, b) => a * b;
+// const division = (a, b) => a / b;
+// const resto = (a, b) => a % b;
+
+// console.log(suma(numero1, numero2));
+// console.log(resta(numero1, numero2));
+// console.log(multiplicacion(numero1, numero2));
+// console.log(division(numero1, numero2));
+// console.log(resto(numero1, numero2));
