@@ -114,3 +114,72 @@
 // console.log(numero1, "es par?", numero1 % 2 === 0);
 // console.log(numero2, "es par?", numero2 % 2 === 0);
 // console.log(numero3, "es par?", numero3 % 2 === 0);
+
+// ej 8
+
+// console.log(10 + 5);
+// console.log("10" + 5);
+// console.log(10 + "5");
+// console.log("10" + "5");
+// console.log(10 - 5);
+// console.log("10" - 5);
+// console.log(10 * "5");
+
+// Después ejecútalo.
+// 1. ¿Por qué '10' + 5 no produce 15? por que concatena el string, da 105
+// 2. ¿Por qué el comportamiento de - es diferente? por que - solo es operador, nunca es concatenar
+// 3. ¿Qué está haciendo JavaScript automáticamente? esta parseando a number con el -, *
+
+// ej 9
+
+// const precio = "25";
+// const gastosEnvio = 5;
+// console.log(typeof precio);
+
+// console.log(Number(precio) + gastosEnvio);
+
+// console.log(typeof Number(precio));
+
+// ej 10
+
+// const a = "123";
+// console.log("Valor original:", a);
+// console.log("Tipo original:", typeof a);
+// console.log("Valor convertido:", Number(a));
+// console.log("Tipo convertido", typeof Number(a));
+
+// const b = 25;
+// console.log("Valor original:", b);
+// console.log("Tipo original:", typeof b);
+// console.log("Valor convertido:", String(b));
+// console.log("Tipo convertido", typeof String(b));
+
+// const c = true;
+// console.log("Valor original:", c);
+// console.log("Tipo original:", typeof c);
+// console.log("Valor convertido:", String(c));
+// console.log("Tipo convertido", typeof String(c));
+
+// const d = 1;
+// console.log("Valor original:", d);
+// console.log("Tipo original:", typeof d);
+// console.log("Valor convertido:", Boolean(d));
+// console.log("Tipo convertido", typeof Boolean(d));
+
+// const e = 0;
+// console.log("Valor original:", e);
+// console.log("Tipo original:", typeof e);
+// console.log("Valor convertido:", Boolean(e));
+// console.log("Tipo convertido", typeof Boolean(e));
+
+// const f = "hola";
+// console.log("Valor original:", f);
+// console.log("Tipo original:", typeof f);
+// console.log("Valor convertido:", boolean(f));
+// console.log("Tipo convertido", typeof boolean(f));
+
+// const g = "";
+// console.log("Valor original:", g);
+// console.log("Tipo original:", typeof g);
+// console.log("Valor convertido:", boolean(g));
+// console.log("Tipo convertido", typeof boolean(g));
