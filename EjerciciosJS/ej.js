@@ -57,3 +57,15 @@
 // console.log(typeof g);
 
 // ej 4
+
+// let resultado = 10;
+// console.log(typeof resultado);
+
+// resultado = "diez";
+// console.log(typeof resultado);
+
+// resultado = true;
+// console.log(typeof resultado);
+
+// resultado = null;
+// console.log(typeof resultado);
