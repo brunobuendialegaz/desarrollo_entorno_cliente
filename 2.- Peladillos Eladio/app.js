@@ -94,3 +94,32 @@ function renderizarServicios() {
   servicesGrid.innerHTML = cardsHtml;
   serviceSelect.innerHTML = optionHtml;
 }
+renderizarServicios();
+
+function renderizarServiciosCreate() {
+  // mismo pero mas codigo, menos bonito, pero mejor en seguridad, por que no permites meter codigo en caliente. USAR SIEMPRE si el cliente puede meter aqui cosas por ejemplo en un form. Si viene de bbdd, podemos usar el otro
+
+  for (const servicio of SERVICIOS) {
+    const article = document.createElement("article");
+    article.classList.add("card");
+
+    const title = document.createElement("h3");
+    title.textContent = servicio.name;
+
+    const duration = document.createElement("p");
+    duration.textContent = `${servicio.duracion} min`;
+
+    const price = document.createElement("span");
+    precio.classList.add("price");
+    precio.textContent = formatMoney(servicio.precio);
+
+    article.append(title, duration, price);
+    servicesGrid.append(article);
+  }
+}
+
+function leerFormulario() {
+  const datos = new FormData(bookingForm);
+  const name = string(datos.get("clientName") ?? "").trim();
+  const age = number(datos.get("age"));
+}
