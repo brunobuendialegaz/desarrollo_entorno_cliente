@@ -82,7 +82,15 @@ function renderizarServicios() {
         <p${servicio.duracion} min</p>
         <span class="price">${formatMoney(servicio.precio)}</span>
       </article>
-    
+    `;
+
+    optionHtml += `
+      <option value="${servicio.id}">
+        ${servicio.name} - ${formatMoney(servicio.precio)}
+      </option>
     `;
   }
+
+  servicesGrid.innerHTML = cardsHtml;
+  serviceSelect.innerHTML = optionHtml;
 }
