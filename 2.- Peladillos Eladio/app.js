@@ -120,6 +120,56 @@ function renderizarServiciosCreate() {
 
 function leerFormulario() {
   const datos = new FormData(bookingForm);
-  const name = string(datos.get("clientName") ?? "").trim();
-  const age = number(datos.get("age"));
+  const name = String(datos.get("clientName") ?? "").trim();
+  const age = Number(datos.get("age"));
+  const extras = datos.getAll("extras").map(string);
+  const coupon = string(datos.get("coupon") ?? "")
+    .trim()
+    .toUpperCase();
+  const servicioId = string(datos.get("service") ?? "");
+  const dia = string(datos.get("day") ?? "");
+  const esMiembro = datos.get("member") === "on";
+
+  return {
+    name,
+    age,
+    servicioId,
+    dia,
+    extras,
+    coupon,
+    esMiembro,
+  };
+}
+
+function comprobarServicio(id) {
+  return SERVICIOS.find((servicio) => servicio.id === id);
+}
+
+function validarReserva(reserva) {
+  const errores = [];
+
+  if (!reserva.nombre) {
+    errores.push("Escribe tu nombre");
+  }
+
+  if (Number.isNaN(reserva.edad)) {
+    errores.push("La edad debe ser un numero");
+  } else if (reserva.edad < TIENDA.edadMinima || reserva.edad > 120) {
+    errores.push(`La edad debe estar entre ${TIENDA.edadMinima} y 120`);
+  }
+
+  if (!comprobarServicio(reserva.servicioId)) {
+    errores.push("El servicio no existe");
+  }
+
+  if (!reserva.dia) {
+    errores.push("Selecciona un dia");
+  }
+
+  return errores;
+}
+
+function calcularReserva(reserva) {
+  const servicio = buscarServicios(reserva.id);
+  let subtotal = servicio?.precio ?? 0;
 }
