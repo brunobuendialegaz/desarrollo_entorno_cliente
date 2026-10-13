@@ -31,9 +31,9 @@ const SERVICIOS = [
 const EXTRAS = {
   lavado: {
     nombre: "Lavado gostoso",
-    precio: 100,
+    precio: 4,
   },
-  lavado: {
+  cejas: {
     nombre: "Pulido de cejas",
     precio: 3,
   },
@@ -71,6 +71,10 @@ function buscarServicios(id) {
   return SERVICIOS.find((servicio) => servicio.id === id);
 }
 
+function buscarExtra(id) {
+  return EXTRAS[id];
+}
+
 function renderizarServicios() {
   let cardsHtml = "";
   let optionHtml = "";
@@ -94,7 +98,6 @@ function renderizarServicios() {
   servicesGrid.innerHTML = cardsHtml;
   serviceSelect.innerHTML = optionHtml;
 }
-renderizarServicios();
 
 function renderizarServiciosCreate() {
   // mismo pero mas codigo, menos bonito, pero mejor en seguridad, por que no permites meter codigo en caliente. USAR SIEMPRE si el cliente puede meter aqui cosas por ejemplo en un form. Si viene de bbdd, podemos usar el otro
@@ -141,10 +144,6 @@ function leerFormulario() {
   };
 }
 
-function comprobarServicio(id) {
-  return SERVICIOS.find((servicio) => servicio.id === id);
-}
-
 function validarReserva(reserva) {
   const errores = [];
 
@@ -158,7 +157,7 @@ function validarReserva(reserva) {
     errores.push(`La edad debe estar entre ${TIENDA.edadMinima} y 120`);
   }
 
-  if (!comprobarServicio(reserva.servicioId)) {
+  if (!buscarServicios(reserva.servicioId)) {
     errores.push("El servicio no existe");
   }
 
@@ -170,6 +169,31 @@ function validarReserva(reserva) {
 }
 
 function calcularReserva(reserva) {
-  const servicio = buscarServicios(reserva.id);
+  const servicio = buscarServicios(reserva.servicioId);
   let subtotal = servicio?.precio ?? 0;
+
+  const extras = [];
+  for (const id of reserva.extras) {
+    const extra = buscarExtra(id);
+    if (extra) {
+      extras.push(extra);
+      subtotal += extra.precio;
+    }
+  }
+
+  let descuento = 0;
+
+  if (reserva.esMiembro) descuento += DESCUENTO_MIEMBRO;
+  if (reserva.coupon === CODIGO_CUPON) descuento += CUPON_DESCUENTO;
+
+  const montoDescontado = subtotal * descuento;
+  const total = subtotal - montoDescontado;
+  return {
+    servicio,
+    extras,
+    subtotal,
+    descuento,
+    montoDescontado,
+    total,
+  };
 }
