@@ -81,7 +81,7 @@ function renderizarServicios() {
 
   for (const servicio of SERVICIOS) {
     cardsHtml += `
-      <article class="article">
+      <article class="card">
         <h3>${servicio.name}</h3>
         <p${servicio.duracion} min</p>
         <span class="price">${formatMoney(servicio.precio)}</span>
@@ -98,6 +98,8 @@ function renderizarServicios() {
   servicesGrid.innerHTML = cardsHtml;
   serviceSelect.innerHTML = optionHtml;
 }
+
+renderizarServicios();
 
 function renderizarServiciosCreate() {
   // mismo pero mas codigo, menos bonito, pero mejor en seguridad, por que no permites meter codigo en caliente. USAR SIEMPRE si el cliente puede meter aqui cosas por ejemplo en un form. Si viene de bbdd, podemos usar el otro
