@@ -77,7 +77,11 @@ function buscarExtra(id) {
 
 function renderizarServicios() {
   let cardsHtml = "";
-  let optionHtml = "";
+  let optionHtml = `
+    <option value="" selected disabled>
+      - Selecciona un servicio -
+    </option>
+  `;
 
   for (const servicio of SERVICIOS) {
     cardsHtml += `
@@ -98,8 +102,6 @@ function renderizarServicios() {
   servicesGrid.innerHTML = cardsHtml;
   serviceSelect.innerHTML = optionHtml;
 }
-
-renderizarServicios();
 
 function renderizarServiciosCreate() {
   // mismo pero mas codigo, menos bonito, pero mejor en seguridad, por que no permites meter codigo en caliente. USAR SIEMPRE si el cliente puede meter aqui cosas por ejemplo en un form. Si viene de bbdd, podemos usar el otro
@@ -199,3 +201,37 @@ function calcularReserva(reserva) {
     total,
   };
 }
+
+function obtenerMensajeEdad(edad) {
+  if (edad < TIENDA.edadMinima) {
+    return "No cumples con la edad minima";
+  } else if (edad >= 65) {
+    return "Bienvenido jubilado!";
+  } else {
+    return "Contamos contigo!";
+  }
+}
+
+function obtenerMensajeDia(dia) {
+  switch (dia) {
+    case "Lunes":
+      return "Empezar a tope la semana!";
+    case "Viernes":
+      return "Acabar a tope la semana!";
+    case "Sábado":
+      return "Bendito sábado";
+    default:
+      return "Un buen dia para retocarse!";
+  }
+}
+
+function renderizarTicket() {
+  const reserva = leerFormulario();
+  const resultado = calcularReserva(reserva);
+  const nombreServicio = resultado.servicio?.name ?? "Sin seleccionar";
+  const nombresExtras = resultado.extras
+    .map((extra) => extra.nombre)
+    .join(", ");
+}
+
+renderizarServicios();
