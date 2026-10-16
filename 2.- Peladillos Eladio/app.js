@@ -64,7 +64,7 @@ function escape(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039");
+    .replaceAll("'", "&#039;");
 }
 
 function buscarServicios(id) {
@@ -87,7 +87,7 @@ function renderizarServicios() {
     cardsHtml += `
       <article class="card">
         <h3>${servicio.name}</h3>
-        <p${servicio.duracion} min</p>
+        <p>${servicio.duracion} min</p>
         <span class="price">${formatMoney(servicio.precio)}</span>
       </article>
     `;
@@ -129,12 +129,12 @@ function leerFormulario() {
   const datos = new FormData(bookingForm);
   const name = String(datos.get("clientName") ?? "").trim();
   const age = Number(datos.get("age"));
-  const extras = datos.getAll("extras").map(string);
-  const coupon = string(datos.get("coupon") ?? "")
+  const extras = datos.getAll("extras").map(String);
+  const coupon = String(datos.get("coupon") ?? "")
     .trim()
     .toUpperCase();
-  const servicioId = string(datos.get("service") ?? "");
-  const dia = string(datos.get("day") ?? "");
+  const servicioId = String(datos.get("service") ?? "");
+  const dia = String(datos.get("day") ?? "");
   const esMiembro = datos.get("member") === "on";
 
   return {
@@ -151,13 +151,13 @@ function leerFormulario() {
 function validarReserva(reserva) {
   const errores = [];
 
-  if (!reserva.nombre) {
+  if (!reserva.name) {
     errores.push("Escribe tu nombre");
   }
 
-  if (Number.isNaN(reserva.edad)) {
+  if (Number.isNaN(reserva.age)) {
     errores.push("La edad debe ser un numero");
-  } else if (reserva.edad < TIENDA.edadMinima || reserva.edad > 120) {
+  } else if (reserva.age < TIENDA.edadMinima || reserva.age > 120) {
     errores.push(`La edad debe estar entre ${TIENDA.edadMinima} y 120`);
   }
 
@@ -232,6 +232,71 @@ function renderizarTicket() {
   const nombresExtras = resultado.extras
     .map((extra) => extra.nombre)
     .join(", ");
+
+  ticketContent.innerHTML = `
+    <div class="ticket-row">
+      <span>Cliente</span>
+      <strong>${escape(reserva.name || "sin indicar")}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Miembro</span>
+      <strong>${reserva.esMiembro ? "Sí" : "No"}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Dia</span>
+      <strong>${escape(reserva.dia || "sin indicar")}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Servicio</span>
+      <strong>${escape(nombreServicio)}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Extras</span>
+      <strong>${escape(nombresExtras || "ninguno")}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Subtotal</span>
+      <strong>${formatMoney(resultado.subtotal)}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Descuento</span>
+      <strong>${formatMoney(resultado.montoDescontado)}</strong>
+    </div>
+
+    <div class="ticket-row">
+      <span>Total</span>
+      <strong>${formatMoney(resultado.total)}</strong>
+    </div>
+
+  `;
 }
+
+bookingForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const reserva = leerFormulario();
+
+  const errores = validarReserva(reserva);
+
+  if (errores.length > 0) {
+    formMessage.textContent = errores.join(" ");
+
+    return;
+  }
+
+  const resultado = calcularReserva(reserva);
+
+  formMessage.textContent =
+    `Reserva preparada para ${reserva.name}` +
+    `Total: ${formatMoney(resultado.total)}`;
+
+  renderizarTicket();
+});
 
 renderizarServicios();
