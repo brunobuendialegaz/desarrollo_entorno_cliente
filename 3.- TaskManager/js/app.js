@@ -68,8 +68,46 @@ function notificarCambio() {
 
       detail: {
         total: total,
-        noCompletadas: tareasNoCompletadas,
+        noCompletadas: tareasNoCompletadas.length,
       },
     }),
   );
+}
+
+document.addEventListener("tareas:cambiadas", (event) => {
+  console.log("evento recibido: ", event.type);
+  console.log("detalles: ", event.detail);
+});
+
+function renderizar() {
+  for (const estado of estados) {
+    $("#" + estado).replaceChildren();
+  }
+
+  const filtro = $("#filtro").value;
+
+  for (const tarea of tareas) {
+    if (filtro !== "todas" && tarea.prioridad !== filtro) {
+      continue; // no esta en el filtro estado
+    }
+    if (!tarea.titulo.toLocaleLowerCase().includes(busqueda)) {
+      continue; // no esta en el filtro busqueda
+    }
+
+    const tarjeta = document.createElement("article");
+    tarjeta.className("tarea");
+
+    tarjeta.dateset.id - tarea.id;
+    tarjeta.dataset.prioridad = tarea.prioridad;
+
+    const titulo = document.createElement("h4");
+    titulo.textContent = tarea.titulo;
+
+    tarjeta.append(titulo);
+
+    const detalle = document.createElement("small");
+    detalle.textContent = "Prioridad: " + tarea.prioridad;
+
+    tarjeta.append(detalle, document.createAttribute("br"));
+  }
 }
