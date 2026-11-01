@@ -154,6 +154,8 @@ $("#formulario").addEventListener("submit", (event) => {
 
   $("#formulario").reset();
 
+  $("#contador").textContent = "0/80";
+
   avisar("Tarea añadida");
 
   renderizar();
