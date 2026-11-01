@@ -95,9 +95,9 @@ function renderizar() {
     }
 
     const tarjeta = document.createElement("article");
-    tarjeta.className("tarea");
+    tarjeta.className = "tarea";
 
-    tarjeta.dateset.id - tarea.id;
+    tarjeta.dataset.id = tarea.id;
     tarjeta.dataset.prioridad = tarea.prioridad;
 
     const titulo = document.createElement("h4");
@@ -108,6 +108,59 @@ function renderizar() {
     const detalle = document.createElement("small");
     detalle.textContent = "Prioridad: " + tarea.prioridad;
 
-    tarjeta.append(detalle, document.createAttribute("br"));
+    tarjeta.append(detalle, document.createElement("br"));
+
+    for (const [accion, texto] of [
+      ["anterior", "<- Anterior"],
+      ["siguiente", "Siguiente ->"],
+      ["eliminar", "Eliminar"],
+    ]) {
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.dataset.accion = accion;
+      boton.textContent = texto;
+
+      const indice = estados.indexOf(tarea.estado);
+
+      boton.disabled =
+        (accion === "anterior" && indice === 0) ||
+        (accion === "siguiente" && indice === 2);
+
+      tarjeta.append(boton);
+    }
+
+    $("#" + tarea.estado).append(tarjeta);
   }
+  notificarCambio();
 }
+
+$("#formulario").addEventListener("submit", (event) => {
+  event.preventDefault(); // evitamos que se borren los inputs
+
+  const titulo = $("#titulo").value.trim();
+
+  if (!titulo) {
+    avisar("Introduce un título válido");
+    $("#titulo").focus();
+    return;
+  }
+
+  tareas.push({
+    id: siguienteId++,
+    titulo,
+    prioridad: $("#prioridad").value,
+    estado: "pendiente",
+  });
+
+  $("#formulario").reset();
+
+  avisar("Tarea añadida");
+
+  renderizar();
+
+  $("#titulo").focus();
+});
+
+// llamadas
+
+renderizar();
