@@ -134,6 +134,7 @@ function renderizar() {
   notificarCambio();
 }
 
+// eventListener del boton crear
 $("#formulario").addEventListener("submit", (event) => {
   event.preventDefault(); // evitamos que se borren los inputs
 
@@ -163,6 +164,49 @@ $("#formulario").addEventListener("submit", (event) => {
   $("#titulo").focus();
 });
 
+//eventListener buscador
+$("#buscar").addEventListener(
+  "input",
+  debounce((event) => {
+    busqueda = event.target.value.toLocaleLowerCase().trim();
+    renderizar();
+  }, 300),
+);
+
+//eventListener a tablero, para gestionar los botones de mover y eliminar
+$("#tablero").addEventListener("click", (event) => {
+  const boton = event.target.closest("button[data-accion]");
+  if (!boton || !event.currentTarget.contains(boton)) {
+    return;
+  }
+
+  const tarjeta = boton.closest(".tarea");
+
+  if (!tarjeta) {
+    return;
+  }
+
+  const id = Number(tarjeta.dataset.id);
+
+  const indice = tareas.findIndex((t) => t.id === id);
+
+  if (indice < 0) {
+    return;
+  }
+
+  const accion = boton.dataset.accion;
+
+  if (accion === "eliminar") {
+    tareas.splice(indice, 1);
+  } else {
+    const actual = estados.indexOf(tareas[indice].estado);
+
+    tareas[indice].estado = estados[actual + (accion === "siguiente" ? 1 : -1)];
+  }
+
+  avisar("Acción realizada: " + accion);
+  renderizar();
+});
 // llamadas
 
 renderizar();
