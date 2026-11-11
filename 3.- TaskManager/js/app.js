@@ -263,6 +263,35 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+// contador de caracteres del titulo
+$("#titulo").addEventListener("input", (event) => {
+  $("#contador").textContent = event.target.value.length + "/80";
+});
+
+// al pulsar el boton ya hace un submit y eso borra todo por que no hay prevent default, con esto conseguimos limpiar tambien el contador.
+$("#formulario").addEventListener("reset", () => {
+  $("#contador").textContent = "0/80";
+});
+
+$("#titulo").addEventListener("focus", () => {
+  avisar("Escribe un titulo y pulsa añadir");
+});
+
+// Si dejas el titulo vacío, te da aviso de que el campo es obligatorio.
+$("#titulo").addEventListener("blur", () => {
+  if (!$("#titulo").value.trim()) {
+    avisar("El campo titulo es obligatorio");
+  } else {
+    avisar("");
+  }
+});
+
+document.addEventListener("tareas:cambiadas", (event) => {
+  $("#estadisticas").textContent =
+    `Total: ${event.detail.total} -` +
+    ` Sin completar: ${event.detail.noCompletadas}`;
+});
+
 // llamadas
 
 renderizar();
