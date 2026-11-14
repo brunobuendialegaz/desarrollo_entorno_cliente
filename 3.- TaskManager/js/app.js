@@ -292,6 +292,63 @@ document.addEventListener("tareas:cambiadas", (event) => {
     ` Sin completar: ${event.detail.noCompletadas}`;
 });
 
+// funcion para registrar etiquetas, lo hacemos para depurar, lo cambiamos por la
+// funcion flecha de los escuchadores que vienen despues en el for.
+function registrar(etiqueta) {
+  return (event) => {
+    const li = document.createElement("li");
+
+    li.textContent =
+      `${etiqueta} | ` +
+      `fase=${event.eventPhase} |` +
+      `targer=${event.target.id} |` +
+      `currentTarget=${event.currentTarget.id} |`;
+
+    $("#registro").prepend(li);
+  };
+}
+
+// escuchador para limpiar las etiquetas
+$("#limpiar-log").addEventListener("click", () => {
+  $("#registro").replaceChildren();
+});
+
+// evento escuchar el raton
+$("#activar").addEventListener("click", () => {
+  if (seguimiento) {
+    return;
+  }
+  seguimiento = new AbortController();
+
+  document.addEventListener(
+    "pointermove",
+    throttle((event) => {
+      $("#puntero").textContent =
+        `Puntero: ${event.pointerType} |` +
+        ` X: ${event.clientX} |` +
+        ` Y: ${event.clientY}`;
+    }, 100),
+    {
+      signal: seguimiento.signal,
+      passive: true,
+    },
+  );
+
+  $("#activar").disabled = true;
+  $("#desactivar").disabled = false;
+});
+
+// cargamos varios escuchadores con este for
+for (const id of ["exterior", "interior", "objetivo"]) {
+  const elemento = $("#" + id);
+
+  elemento.addEventListener("click", registrar(id + " Captura"), {
+    capture: true,
+  });
+
+  elemento.addEventListener("click", registrar(id + " Burbujeo"));
+}
+
 // llamadas
 
 renderizar();
