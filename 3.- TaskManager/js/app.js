@@ -338,6 +338,28 @@ $("#activar").addEventListener("click", () => {
   $("#desactivar").disabled = false;
 });
 
+function desactivarSeguimiento() {
+  if (!seguimiento) {
+    return;
+  }
+
+  seguimiento.abort();
+
+  seguimiento = null;
+
+  $("#puntero").textContent = "Seguimiento desactivado";
+
+  $("#activar").disabled = false;
+  $("#desactivar").disabled = true;
+}
+
+$("#desactivar").addEventListener("click", desactivarSeguimiento);
+
+window.addEventListener("resize", () => {
+  $("#pantalla").textContent =
+    "Ancho de la ventana: " + window.innerWidth + "px";
+});
+
 // cargamos varios escuchadores con este for
 for (const id of ["exterior", "interior", "objetivo"]) {
   const elemento = $("#" + id);
